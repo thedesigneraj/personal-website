@@ -13,15 +13,23 @@ export function Nav() {
         <Link href="/" className="font-mono text-sm">
           <span className="text-lime">~/</span>sudharsan-aj
         </Link>
-        <ul className="flex gap-5 font-mono text-sm text-muted sm:gap-8">
-          {links.map((l) => (
-            <li key={l.href}>
-              <Link href={l.href} className="transition hover:text-lime">
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-4 sm:gap-8">
+          <ul className="flex gap-4 font-mono text-sm text-muted sm:gap-8">
+            {links.map((l) => (
+              <li key={l.href} className={l.label === "contact" ? "hidden sm:block" : ""}>
+                <Link href={l.href} className="transition hover:text-lime">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/#contact"
+            className="rounded-full bg-lime px-4 py-1.5 font-mono text-sm text-ink transition hover:bg-paper"
+          >
+            hire me
+          </Link>
+        </div>
       </nav>
     </header>
   );

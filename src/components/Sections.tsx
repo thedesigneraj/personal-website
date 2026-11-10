@@ -143,13 +143,25 @@ export function Contact() {
             linkedin ↗
           </a>
           {hasResume && (
-            <a
-              href={site.resume}
-              download="Sudharsan-AJ-Resume.pdf"
-              className="rounded-md bg-lime px-5 py-3 font-mono text-sm text-ink transition hover:bg-paper"
-            >
-              résumé ↓
-            </a>
+            <span className="inline-flex overflow-hidden rounded-md bg-lime font-mono text-sm text-ink">
+              <a
+                href={site.resume}
+                target="_blank"
+                rel="noreferrer"
+                className="px-5 py-3 transition hover:bg-paper"
+              >
+                view résumé ↗
+              </a>
+              <a
+                href={site.resume}
+                download="Sudharsan-AJ-Resume.pdf"
+                aria-label="Download résumé as PDF"
+                title="Download PDF"
+                className="border-l border-ink/20 px-4 py-3 transition hover:bg-paper"
+              >
+                ↓
+              </a>
+            </span>
           )}
         </div>
       </Reveal>
