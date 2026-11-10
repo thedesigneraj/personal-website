@@ -51,8 +51,12 @@ function Letters({ text, offset = 0, attr }: { text: string; offset?: number; at
   return (
     <>
       {text.split("").map((ch, i) => (
-        <span key={i} className="rise inline-block" style={{ ["--i" as string]: i + offset }} {...{ [attr]: "" }}>
-          {ch}
+        // Outer span is moved by the scroll timeline; inner span plays the CSS load
+        // animation. Keeping them separate stops GSAP from saving a half-faded state.
+        <span key={i} className="inline-block" {...{ [attr]: "" }}>
+          <span className="rise inline-block" style={{ ["--i" as string]: i + offset }}>
+            {ch}
+          </span>
         </span>
       ))}
     </>
@@ -121,9 +125,12 @@ export function StoryHero() {
         // 0. Hello → fly through "AJ"
         tl.to(q("[data-hint]"), { autoAlpha: 0, duration: 0.3 }, 0)
           .to(q("[data-hello], [data-callme]"), { autoAlpha: 0, y: -20, duration: 0.5 }, 0)
-          .to(
+          // Explicit start state so scrolling back to the top always restores the name.
+          .fromTo(
             q("[data-first]"),
+            { yPercent: 0, rotate: 0, autoAlpha: 1 },
             {
+              immediateRender: false,
               yPercent: () => gsap.utils.random(-260, -140),
               rotate: () => gsap.utils.random(-40, 40),
               autoAlpha: 0,
