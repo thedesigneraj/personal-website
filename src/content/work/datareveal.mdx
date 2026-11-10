@@ -1,24 +1,25 @@
 export const meta = {
   title: "DataReveal",
   summary:
-    "A finance analyzer for Walmart's CFO team: AI-assisted workflows, a single dashboard for financial data, and a design system the whole team could build from.",
+    "FinReveal, a finance analyzer for Walmart's CFO team that turns spreadsheets into narratives, comparisons and trends. Plus the design system behind it.",
   role: "UX/UI Designer and UX Researcher",
   timeline: "Feb – Jul 2025",
   location: "Dallas, US",
   tools: "Figma",
   team: "Product Manager, 5+ developers, DataReveal's CEO, Walmart's CFO team",
   tags: ["Enterprise", "Finance", "Design system"],
-  cover: "DataReveal, recreated finance dashboard",
+  cover: "FinReveal landing page",
   nda: true,
+  note: "My design work on FinReveal. Data shown is sample data.",
   seoDescription:
-    "UX case study: researching and designing an AI-assisted finance analyzer for Walmart's CFO team, plus a reusable design system.",
+    "UX case study: researching and designing FinReveal, an AI finance analyzer for Walmart's CFO team, with its brand and design system.",
 };
 
 ## The problem
 
 Walmart's CFO team needed a faster way to find, understand and work with financial information. Their workflows meant moving between financial data, reports and different sources, so it was hard to get one consolidated view, and a lot of time went into repetitive tasks.
 
-The goal was to explore how AI-powered automation could simplify these workflows, make financial insights easier to reach and make analysis more efficient.
+The goal was to explore how AI-powered automation could simplify these workflows, make financial insights easier to reach and make analysis more efficient. That became **FinReveal**, by DataReveal.ai: upload a financial spreadsheet and get executive narratives, comparisons, trends and answers back.
 
 ## My role
 
@@ -46,37 +47,77 @@ Along the way I reviewed requirements with the PM and developers to check that t
 
 ### One workspace instead of many screens
 
-The main dashboard became a central workspace for the CFO team, bringing data visualisations, reports and analytics into one interface. People could get an overview of what mattered without jumping between screens.
+The main dashboard became a single workspace. Upload a file, switch between Summary, Trend analysis and Compare data, pick a date range, search a store, and download the report or ask the chatbot, all from one screen.
 
-<Recreated caption="The dashboard rebuilt from memory with fictional numbers. Layout and content are simplified.">
-  <FinanceDashboard />
-</Recreated>
+<Shot
+  src="/work/datareveal/dashboard.png"
+  alt="FinReveal dashboard: uploaded file, download report, chat with bot, summary, trend analysis and compare data tabs, date range, store search and view-by filter"
+  width={1143}
+  height={442}
+  caption="The FinReveal workspace: every control the CFO team needs above one results area."
+/>
 
-### A clear path from overview to detail
+### A clear path from spreadsheet to insight
 
-I set up an information hierarchy that let people start at the high-level numbers and move into detailed financial reports when they needed to. Every choice aimed to reduce the mental effort of working with complex financial data.
+I designed the flow around how the team already worked: start from the Excel file they had, and end with something they could take into a board meeting.
 
 <Flow
   steps={[
-    { title: "Overview", text: "The key numbers at a glance." },
-    { title: "Reports", text: "Detailed financial reports, one click away." },
-    { title: "Analytics", text: "Dig into trends and the reasons behind them." },
+    { title: "Upload", text: "Drop in the Excel file you already have." },
+    { title: "Structure", text: "FinReveal organises the data." },
+    { title: "Insight", text: "Visual and narrative insights, by level and time period." },
+    { title: "Share", text: "Download as PDF, PPT or Excel, or ask the chatbot." },
   ]}
+/>
+
+The product is built around four capabilities: **CFO-level narratives**, a **comparison engine** across stores and time periods, **trend analysis**, and an **interactive financial chatbot**. The landing page explains each one with the product itself.
+
+<ScrollShot
+  src="/work/datareveal/landing-page.webp"
+  alt="FinReveal landing page: hero, how it works, feature overview, CFO-level narratives, comparison engine, trend analysis, interactive chatbot and a call to action"
+  width={1440}
+  height={5625}
+  url="finreveal · landing page"
+  caption="The full FinReveal landing page. Scroll inside the frame."
 />
 
 ### A design system the team could share
 
-Instead of designing elements again and again, I built a reusable design system: components with consistent styles, behaviours and variants, plus the layouts, typography and visual styles the product needed. It gave the product one visual language and gave developers a shared reference when turning designs into code. It also made the design easier to maintain as the product grew.
+Instead of designing elements again and again, I set up a design system with one visual language: Montserrat on a 16px rem base, a primary blue scale with neutrals and transparency steps, and clear rules for the logo. It gave developers a shared reference when turning designs into code and made the product easier to maintain as it grew.
 
-<Recreated caption="The shape of the design system, recreated. The real colours and components were different.">
-  <DesignSystemSheet />
-</Recreated>
+<Shot
+  src="/work/datareveal/guide-type-colour.webp"
+  alt="FinReveal design guideline: Montserrat typography scale for desktop and tablet, primary, neutral and transparency colour palettes"
+  width={1200}
+  height={2217}
+  caption="Typography and colour, from my FinReveal design guideline."
+/>
+
+<Shot
+  src="/work/datareveal/guide-logo.webp"
+  alt="FinReveal logo on light, blue and dark backgrounds, with logo size guidance of 223 by 54 pixels"
+  width={1200}
+  height={1365}
+  caption="The logo on different backgrounds, and its size rules for the web."
+/>
+
+### Buttons with rules, not guesses
+
+I wrote a CTA button guideline so every button looked and behaved the same: an 8px corner radius, filled buttons for primary actions and outline buttons for secondary ones, and one colour scheme for every size.
+
+<Shot
+  src="/work/datareveal/button-guideline.webp"
+  alt="FinReveal CTA button guideline: 8px corner radius, outline button colours and filled button colours"
+  width={1200}
+  height={2208}
+  caption="The CTA button guideline: radius, outline and filled styles."
+/>
 
 ## Outcome
 
-- Designed an enterprise product around the real workflows of Walmart's CFO team.
+- Designed FinReveal around the real workflows of Walmart's CFO team.
 - Worked across business, product and engineering, turning complex stakeholder needs into usable product experiences.
-- Built a reusable design system that kept the product consistent and gave design and development a common foundation.
+- Created the design guideline (type, colour, logo usage) and button system that kept the product consistent and gave design and development a common foundation.
 
 ## What I'd do differently
 

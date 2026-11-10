@@ -14,6 +14,7 @@ export type WorkMeta = {
   tags: string[];
   cover: string; // label for the cover placeholder
   nda?: boolean;
+  note?: string; // replaces the default NDA note when set
   seoDescription: string;
 };
 

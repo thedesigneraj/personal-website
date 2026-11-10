@@ -9,6 +9,7 @@ import {
   Grid,
   Prototype,
   Recreated,
+  ScrollShot,
   Shift,
   Shot,
 } from "@/components/visuals";
@@ -58,6 +59,7 @@ const components: MDXComponents = {
   Todo,
   Stats,
   Shot,
+  ScrollShot,
   Recreated,
   Flow,
   Shift,

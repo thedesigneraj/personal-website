@@ -20,8 +20,8 @@ const chapters = [
 
 // Real work shown in the PRODUCT chapter.
 const products = [
-  { name: "nudge", src: "/work/hero/nudge-screen.png" },
-  { name: "companion", src: "/work/hero/companion-screen.png" },
+  { name: "nudge", src: "/work/hero/nudge-screen.png", w: 393, h: 850 },
+  { name: "companion", src: "/work/hero/companion-screen.png", w: 390, h: 844 },
 ];
 
 const codeLines = [
@@ -374,9 +374,9 @@ export function StoryHero() {
               <figure
                 key={p.name}
                 data-phone={i}
-                className="absolute z-[3] aspect-[186/400] w-[22%] overflow-hidden rounded-[0.9rem] border-[3px] border-[#2a2a28] bg-ink shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] sm:w-[17%] sm:rounded-[1.4rem] sm:border-4"
+                className="absolute z-[3] aspect-[390/844] w-[22%] overflow-hidden rounded-[0.9rem] border-[3px] border-[#2a2a28] bg-ink shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] sm:w-[17%] sm:rounded-[1.4rem] sm:border-4"
               >
-                <Image src={p.src} alt="" width={186} height={400} sizes="180px" className="h-full w-full object-cover" />
+                <Image src={p.src} alt="" width={p.w} height={p.h} sizes="(min-width: 640px) 200px, 120px" quality={90} className="h-full w-full object-cover object-top" />
               </figure>
             ))}
             <div className="absolute inset-x-0 -bottom-1 flex justify-center gap-[18%] font-mono text-[10px] text-muted sm:text-xs">

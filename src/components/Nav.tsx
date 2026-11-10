@@ -23,10 +23,7 @@ export function Nav() {
               </li>
             ))}
           </ul>
-          <Link
-            href="/#contact"
-            className="rounded-full bg-lime px-4 py-1.5 font-mono text-sm text-ink transition hover:bg-paper"
-          >
+          <Link href="/#contact" className="font-mono text-sm text-lime transition hover:text-paper">
             hire me
           </Link>
         </div>

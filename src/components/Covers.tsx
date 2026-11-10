@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FinanceDashboard, FoodXScreens } from "./visuals";
+import { FoodXScreens } from "./visuals";
 import { Placeholder } from "./ui";
 
 /** Cover visual for each case study, used on the home card and the case study header. */
@@ -21,8 +21,15 @@ export function Cover({ slug, label }: { slug: string; label: string }) {
   }
   if (slug === "datareveal") {
     return (
-      <div className="rounded-xl border border-line bg-panel p-4 sm:p-6">
-        <FinanceDashboard />
+      <div className="overflow-hidden rounded-xl border border-line">
+        <Image
+          src="/work/datareveal/landing-hero.webp"
+          alt="FinReveal landing page: Transform spreadsheets into strategic insights"
+          width={1920}
+          height={1080}
+          sizes="(min-width: 1280px) 1150px, 100vw"
+          className="h-auto w-full"
+        />
       </div>
     );
   }

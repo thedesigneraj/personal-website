@@ -57,7 +57,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
           <p className="mt-6 max-w-3xl text-xl text-paper/75 md:text-2xl">{meta.summary}</p>
           {meta.nda && (
             <div className="mt-8">
-              <NdaNote />
+              <NdaNote text={meta.note} />
             </div>
           )}
 

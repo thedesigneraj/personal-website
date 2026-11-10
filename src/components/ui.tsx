@@ -56,11 +56,11 @@ export function Todo({ children }: { children: ReactNode }) {
   );
 }
 
-export function NdaNote() {
+export function NdaNote({ text }: { text?: string }) {
   return (
     <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted">
       <span className="h-1.5 w-1.5 rounded-full bg-lime" aria-hidden />
-      Client work under NDA. Visuals recreated, details changed.
+      {text ?? "Client work under NDA. Visuals recreated, details changed."}
     </p>
   );
 }

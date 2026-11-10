@@ -27,6 +27,41 @@ export function Shot({
   );
 }
 
+/** A tall screenshot (e.g. a full landing page) inside a browser frame you can scroll. */
+export function ScrollShot({
+  src,
+  alt,
+  width,
+  height,
+  url,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  url: string;
+  caption?: string;
+}) {
+  return (
+    <figure className="my-10">
+      <div className="overflow-hidden rounded-xl border border-line bg-panel">
+        <div className="flex items-center gap-1.5 border-b border-line px-4 py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-line" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line" />
+          <span className="ml-3 rounded bg-ink px-2 py-0.5 font-mono text-xs text-muted">{url}</span>
+          <span className="ml-auto font-mono text-xs text-dim">scroll ↕</span>
+        </div>
+        <div className="h-[70vh] max-h-[720px] overflow-y-auto overscroll-contain">
+          <Image src={src} alt={alt} width={width} height={height} sizes="(min-width: 1280px) 1150px, 100vw" className="h-auto w-full" />
+        </div>
+      </div>
+      {caption && <figcaption className="mt-3 font-mono text-xs text-muted">{caption}</figcaption>}
+    </figure>
+  );
+}
+
 /** A live, clickable Figma prototype. Loads only when scrolled near. */
 export function Prototype({ src, title }: { src: string; title: string }) {
   return (
