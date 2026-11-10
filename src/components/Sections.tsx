@@ -6,70 +6,36 @@ import { works } from "@/lib/work";
 import { site } from "@/lib/site";
 import { concepts } from "@/lib/concepts";
 import { Reveal } from "./Reveal";
-import { SectionLabel, WithTodos } from "./ui";
+import { SectionLabel } from "./ui";
 import { Cover } from "./Covers";
+import { WorkTimeline, type TimelineItem } from "./WorkTimeline";
 
 const wrap = "mx-auto max-w-7xl px-4 sm:px-10 md:px-16";
 
 export function Work() {
-  const [lead, ...rest] = works;
+  const items: TimelineItem[] = works.map(({ slug, meta }) => ({
+    slug,
+    title: meta.title,
+    summary: meta.summary,
+    role: meta.role,
+    timeline: meta.timeline,
+    marker: meta.marker,
+    tags: meta.tags,
+    cover: <Cover slug={slug} label={meta.cover} />,
+  }));
   return (
     <section id="work" className={`${wrap} scroll-mt-14 py-24 md:py-36`}>
       <Reveal>
         <SectionLabel index="01">selected work</SectionLabel>
         <h2 className="mt-4 max-w-3xl text-4xl font-medium tracking-tight md:text-6xl">
-          Three products, from first research to final screens.
+          The road so far.
         </h2>
+        <p className="mt-4 font-mono text-sm text-muted">
+          now <span className="text-lime">←</span> 2023 · founder, contract and in-house work
+        </p>
       </Reveal>
-
-      <div className="mt-16 grid gap-16 md:mt-24 md:gap-24">
-        <WorkCard work={lead} index={1} large />
-        <div className="grid gap-16 md:grid-cols-2 md:gap-10">
-          {rest.map((w, i) => (
-            <WorkCard key={w.slug} work={w} index={i + 2} />
-          ))}
-        </div>
-      </div>
+      <WorkTimeline items={items} />
     </section>
-  );
-}
-
-function WorkCard({
-  work,
-  index,
-  large = false,
-}: {
-  work: (typeof works)[number];
-  index: number;
-  large?: boolean;
-}) {
-  const { meta, slug } = work;
-  return (
-    <Reveal>
-      <Link href={`/work/${slug}`} className="group block">
-        <div className="overflow-hidden rounded-xl transition duration-500 group-hover:-translate-y-1">
-          <Cover slug={slug} label={meta.cover} />
-        </div>
-        <div className={`mt-6 ${large ? "md:flex md:items-end md:justify-between md:gap-10" : ""}`}>
-          <div>
-            <p className="font-mono text-xs text-muted">
-              <span className="text-lime">0{index}</span> · {meta.role} · <WithTodos text={meta.timeline} />
-            </p>
-            <h3
-              className={`mt-3 font-medium tracking-tight transition group-hover:text-lime ${
-                large ? "text-4xl md:text-6xl" : "text-3xl md:text-4xl"
-              }`}
-            >
-              {meta.title}
-            </h3>
-            <p className="mt-3 max-w-xl text-lg text-paper/70">{meta.summary}</p>
-          </div>
-          <span className="mt-5 inline-flex shrink-0 items-center gap-2 font-mono text-sm text-lime">
-            read case study <span className="transition group-hover:translate-x-1">→</span>
-          </span>
-        </div>
-      </Link>
-    </Reveal>
   );
 }
 

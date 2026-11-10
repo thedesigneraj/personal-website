@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FoodXScreens } from "./visuals";
+import { FoodXScreens, HrmsIllustration } from "./visuals";
 import { Placeholder } from "./ui";
 
 /** Cover visual for each case study, used on the home card and the case study header. */
@@ -30,6 +30,13 @@ export function Cover({ slug, label }: { slug: string; label: string }) {
           sizes="(min-width: 1280px) 1150px, 100vw"
           className="h-auto w-full"
         />
+      </div>
+    );
+  }
+  if (slug === "neurix") {
+    return (
+      <div className="rounded-xl border border-line bg-panel p-4 sm:p-6">
+        <HrmsIllustration />
       </div>
     );
   }

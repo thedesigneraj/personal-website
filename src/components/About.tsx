@@ -104,7 +104,7 @@ const frames = [
   { d: doodles.edit, t: "The edit room", s: "Fell for editing, VFX and animation." },
   { d: doodles.pencil, t: "Design", s: "Started making visual work for clients." },
   { d: doodles.cap, t: "Brighton, UK", s: "M.Sc. User Experience Design." },
-  { d: doodles.devices, t: "Startups and clients", s: "FoodX in London, DataReveal for Walmart, and an HRMS for Precision at Murix AI." },
+  { d: doodles.devices, t: "Startups and clients", s: "FoodX in London, DataReveal for Walmart, and an HRMS for a Canadian client at NeurIX AI." },
   { d: doodles.rocket, t: "Founder", s: "Building SkalX. Research, design, code, ship." },
 ];
 

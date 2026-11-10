@@ -7,6 +7,7 @@ import {
   Flow,
   FoodXScreens,
   Grid,
+  HrmsIllustration,
   Prototype,
   Recreated,
   ScrollShot,
@@ -69,6 +70,7 @@ const components: MDXComponents = {
   DesignSystemSheet,
   FoodXScreens,
   ChecklistVsBasket,
+  HrmsIllustration,
 };
 
 export function useMDXComponents(): MDXComponents {

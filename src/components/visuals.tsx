@@ -266,6 +266,51 @@ export function DesignSystemSheet() {
   );
 }
 
+/* ---------- NeurIX AI (illustration only: the real designs are under NDA) ---------- */
+
+const pipeline = [
+  { col: "Applied", items: ["Candidate A · 82", "Candidate B · 76", "Candidate C · 64"] },
+  { col: "Screened", items: ["Candidate D · 88", "Candidate E · 71"] },
+  { col: "Assessment", items: ["Candidate F · 91"] },
+  { col: "Shortlist", items: ["Candidate G · 94"] },
+];
+
+export function HrmsIllustration() {
+  return (
+    <div className="relative text-[10px] sm:text-xs">
+      <div className="mb-3 flex items-center justify-between">
+        <p className="text-sm font-medium sm:text-base">Recruitment · Product Designer role</p>
+        <span className="rounded border border-line px-2 py-1 font-mono text-[10px] text-muted">+ post a job</span>
+      </div>
+      <div className="grid grid-cols-4 gap-2">
+        {pipeline.map((c) => (
+          <div key={c.col} className="rounded-lg border border-line p-2">
+            <p className="mb-2 font-mono text-[10px] text-dim">{c.col}</p>
+            <div className="space-y-1.5">
+              {c.items.map((it) => {
+                const [name, score] = it.split(" · ");
+                return (
+                  <div key={it} className="flex items-center justify-between gap-1 rounded bg-panel px-2 py-1.5">
+                    <span className="flex items-center gap-1.5 truncate">
+                      <span className="h-3 w-3 shrink-0 rounded-full bg-line" />
+                      <span className="truncate text-muted">{name}</span>
+                    </span>
+                    <span className="font-mono text-lime">{score}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 ml-auto w-[min(100%,18rem)] rounded-lg border border-lime/30 bg-lime/5 p-3">
+        <p className="font-mono text-[10px] text-lime">AI assistant</p>
+        <p className="mt-1 text-paper/80">3 candidates passed the assessment. Want me to shortlist them and draft interview invites?</p>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- FoodX (recreated) ---------- */
 
 function Phone({ title, children }: { title: string; children: ReactNode }) {
