@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sudharsan AJ, portfolio
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 + Tailwind CSS 4 + MDX. Deploys to Vercel with no extra config.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where to edit things
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| What | File |
+| --- | --- |
+| Case study text | `src/content/work/skalx.mdx`, `datareveal.mdx`, `foodx.mdx` |
+| Case study card info (title, role, timeline, tools, team) | the `meta` block at the top of each `.mdx` file |
+| Order of case studies | `src/lib/work.ts` |
+| Email, LinkedIn, résumé path, site URL, concept cards | `src/lib/site.ts` |
+| About text and timeline | `src/components/Sections.tsx` (`About`) |
+| Hero scroll story captions | `src/components/StoryHero.tsx` (`chapters`) |
+| Colours and fonts | `src/app/globals.css` (`@theme`) and `src/app/layout.tsx` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Things you can use inside an `.mdx` file
 
-## Learn More
+```mdx
+<Placeholder label="SkalX Ad Studio, main screen" />
+<Placeholder label="Tall shot" ratio="4/5" />
+<BeforeAfter before="Checkout, before" after="Checkout, after" />
+<Todo>something still to write</Todo>
+<Stats items={[{ value: "30%", label: "Less handoff time" }]} />
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Swapping a placeholder for a real screenshot
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Put the image in `public/work/skalx/ad-studio.png`.
+2. Replace the `<Placeholder ... />` line with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```mdx
+![SkalX Ad Studio, main screen](/work/skalx/ad-studio.png)
+```
 
-## Deploy on Vercel
+## Before you go live
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Search the project for `TODO` and fill each one in. They show up in lime on the site on purpose.
+- Add your résumé as `public/resume.pdf`.
+- Set `NEXT_PUBLIC_SITE_URL` in Vercel to your real domain, e.g. `https://sudharsanaj.com`.

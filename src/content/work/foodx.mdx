@@ -1,0 +1,86 @@
+export const meta = {
+  title: "FoodX",
+  summary:
+    "An AI cooking app that scans your fridge and suggests recipes from what you already have, made for students and people new to cooking.",
+  role: "UX/UI Design Intern, then UI Designer",
+  timeline: "Dec 2023 – Jan 2025",
+  location: "London, UK",
+  tools: "Figma",
+  team: "About 5 designers, 6–8 developers, the CTO and CFO",
+  tags: ["Consumer app", "AI", "Gamification"],
+  cover: "FoodX, recreated app screens",
+  nda: true,
+  seoDescription:
+    "UX case study: recipe discovery and a gamified shopping basket for FoodX, an AI cooking app for students and new cooks.",
+};
+
+## The problem
+
+Deciding what to cook is hard when you're a student or new to cooking. You open the fridge, see a few ingredients, and have no idea what to make with them.
+
+FoodX's idea: scan your fridge with AI, identify what's there, and get recipes based on what you already have. You could also pick individual ingredients to see what you could cook.
+
+## My role
+
+I joined FoodX as a UX/UI Design Intern and moved into a full-time role. It was an early-stage startup with a small, close team of about five designers and six to eight developers. I worked with the design team and directly with developers, the CTO and the CFO.
+
+My focus was user journeys, recipe discovery and designing engaging interactions.
+
+## Research
+
+I studied existing cooking and recipe apps to understand their patterns and spot opportunities for FoodX.
+
+<Grid
+  groups={[
+    { label: "SuperCook", items: ["Ingredient-based recipe discovery"] },
+    { label: "Tasty", items: ["Accessible, beginner-friendly cooking"] },
+    { label: "Yummly", items: ["Personalised recommendations and discovery"] },
+    { label: "The question for FoodX", items: ["How do we make cooking feel easy for people who aren't confident cooks?"] },
+  ]}
+/>
+
+I kept coming back to people who weren't confident in the kitchen: how could the product take away the effort of deciding what to make?
+
+## Key decisions
+
+### Make the first experience about your fridge
+
+I worked on recipe discovery and the first-time experience so new users could quickly understand the product and get from "what do I have?" to "what can I cook?".
+
+<Flow
+  steps={[
+    { title: "Scan", text: "Point the camera at the fridge. AI identifies the ingredients." },
+    { title: "Or pick", text: "Select ingredients yourself to see what you can make." },
+    { title: "Cook", text: "Get recipes that use what you already have." },
+  ]}
+/>
+
+<Recreated caption="Key screens rebuilt from memory. The original visual design was different.">
+  <FoodXScreens />
+</Recreated>
+
+### Turn the shopping list into a basket
+
+Shopping lists usually rely on simple checkboxes. For an audience of students and new cooks, I wanted something more engaging.
+
+I designed a gamified basket: you add the fruit, vegetables and other ingredients you need into a virtual basket, see your progress as it fills, and earn reward points when you finish the list. The aim was to make a routine task feel interactive and rewarding.
+
+<Recreated caption="The idea behind the basket concept, recreated.">
+  <ChecklistVsBasket />
+</Recreated>
+
+I built the concept in Figma, prototyped it and tested the interaction to see how people responded to it.
+
+## Outcome
+
+- Designed recipe discovery and the first-time experience around the fridge-scan idea.
+- Took the gamified basket from concept to a tested Figma prototype, exploring how visual feedback, progress and rewards can work in an everyday consumer app.
+- Grew from intern to a full-time designer on the team.
+
+## What I'd do differently
+
+I'd spend more time validating with the target audience, especially students and people with little cooking experience, through structured usability tests on recipe discovery, onboarding and ingredient selection.
+
+For the basket, I'd test it against a normal shopping list to check whether the extra interaction really improved engagement without making the task harder. And I'd set success measures early, like recipe discovery completion, shopping-list completion and retention.
+
+> Interaction design can make everyday tasks more engaging, but good gamification should always support the user's actual goal, not add complexity for its own sake.

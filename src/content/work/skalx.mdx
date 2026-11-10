@@ -1,0 +1,168 @@
+export const meta = {
+  title: "SkalX",
+  summary:
+    "An AI marketing platform for growing D2C brands. It researches your brand and market, plans what to say, then makes the posters, carousels and video ads.",
+  role: "Founder: product design, development and AI",
+  timeline: "Aug 2025 – present",
+  tools: "Next.js, TypeScript, Supabase, Vercel, Gemini, Nano Banana, Seedance",
+  team: "Solo: design, build and deploy",
+  tags: ["AI product", "0 → 1", "Founder"],
+  cover: "SkalX, live landing page",
+  seoDescription:
+    "How Sudharsan AJ researched, designed, built and shipped SkalX, an AI marketing platform for D2C brands, on his own with AI tools.",
+};
+
+## The problem
+
+It started with a business owner who asked me for help with marketing design. As we talked, it was clear his problem was bigger than design. He struggled to create content consistently, to understand his audience, and to run marketing without expensive help.
+
+So I spoke to more small business owners, growing D2C brands and marketing teams. The same pattern kept coming up:
+
+> The hard part isn't making content. It's knowing what to make, why it matters and how to make it work.
+
+Most of them relied on a mix of disconnected tools, freelancers or agencies. The AI tools they tried generated individual assets, but none of them understood the brand or its market.
+
+## Who I designed for
+
+Small business owners, growing D2C brands and their marketing teams. They need a steady stream of posts, ads and videos but can't afford an agency, so they patch it together with separate tools and freelancers.
+
+## Research
+
+My research was conversations, then building and listening. I talked with business owners, D2C brands and marketing teams to understand how they decide what to post. Then I built an early prototype, onboarded beta users and refined the product from their feedback.
+
+What I learned shaped the core idea: connect **brand intelligence**, **marketing strategy** and **creative production** in one place, and make the marketing capabilities of a large company available to growing brands.
+
+<Flow
+  steps={[
+    { title: "Understand", text: "Research the brand, its competitors and its customers." },
+    { title: "Plan", text: "Turn that understanding into what to say and why." },
+    { title: "Make", text: "Produce the posters, carousels and videos to say it." },
+  ]}
+/>
+
+## Key flows
+
+### Brand Research
+
+Helps a business understand its brand, competitors and market through AI-powered research, marketing audits and clear next steps.
+
+<Shot
+  src="/work/skalx/how-skalx-thinks.jpg"
+  alt="SkalX research flow: brand profile, competitor snapshot, top customer doubts, and an ad with its reason"
+  width={2880}
+  height={1846}
+  caption="How SkalX thinks: brand profile, competitor snapshot, customer doubts, then an ad that answers one of them."
+/>
+
+<Shot
+  src="/work/skalx/test-first.jpg"
+  alt="SkalX insights: competitor ad watch, what works in your category, what customers say, and a test pack"
+  width={2880}
+  height={2458}
+  caption="Research turned into decisions: which competitor ads keep running, what customers doubt, and which ad to test first."
+/>
+
+### Brand Studio
+
+Turns that understanding and strategy into structured content plans and on-brand marketing creatives.
+
+<Shot
+  src="/work/skalx/what-you-get.jpg"
+  alt="SkalX output formats: static image ads, carousels, product video ads, UGC video ads, product photoshoots, festive campaigns"
+  width={2880}
+  height={1662}
+  caption="Once SkalX knows what to say, it makes it in every format a brand needs."
+/>
+
+### Ad Studio
+
+Turns marketing ideas into ready-to-use ads, including static posters, carousels and short video ads.
+
+<Shot
+  src="/work/skalx/showcase.jpg"
+  alt="Grid of SkalX-generated posters and product videos for fictional brands"
+  width={2880}
+  height={2644}
+  caption="Every ad comes with a 'why this ad': the finding it answers. Sample ads for fictional brands."
+/>
+
+<Shot
+  src="/work/skalx/photoshoot.jpg"
+  alt="SkalX product photoshoot: one phone photo turned into studio, flat lay and in-hand shots"
+  width={2880}
+  height={2146}
+  caption="Product photoshoot: one phone photo in, studio and lifestyle shots out."
+/>
+
+<Shot
+  src="/work/skalx/ugc.jpg"
+  alt="SkalX UGC-style video ads section"
+  width={2880}
+  height={1632}
+  caption="UGC-style video ads, with scripts built from reviews and competitors' ads."
+/>
+
+## Key decisions
+
+<Shift n="01" from="An AI creative generator" to="A marketing platform, from research to production">
+  I started with AI-generated creatives. The more I explored the problem, the clearer it became that making content
+  wasn't the only struggle. Businesses also struggled to understand their audience, research competitors and decide
+  what to say. So I built a complete workflow, from research and strategy to creative production.
+</Shift>
+
+<Shift n="02" from="Prompt in, generic content out" to="Research first, then content">
+  I didn't want SkalX to produce generic AI content. I added brand and competitor intelligence so every creative is
+  informed by the business, its positioning and its market, not just a text prompt. That's why each ad carries the
+  reason behind it.
+</Shift>
+
+<Shift n="03" from="More integrations, more features" to="A focused core and simpler pricing">
+  More integrations and features wouldn't necessarily make the product more valuable. I paused some publishing and
+  advertising integrations and put that effort into the core: research, strategy and content creation. I also moved
+  to a subscription and credit-based pricing model.
+</Shift>
+
+<Shot
+  src="/work/skalx/pricing.jpg"
+  alt="SkalX pricing plans"
+  width={2880}
+  height={2034}
+  caption="Subscription and credit-based plans."
+/>
+
+## How I built it with AI
+
+I built SkalX largely on my own. I handled the product design, frontend, backend integrations, AI workflows and deployment, working iteratively over several months through research, design, development, testing and many rounds of refinement.
+
+<Grid
+  groups={[
+    { label: "Research and reasoning", items: ["Google Gemini"] },
+    { label: "Images and posters", items: ["Google Nano Banana"] },
+    { label: "Short-form video", items: ["Runway Seedance 2.5"] },
+    { label: "Voiceovers", items: ["Gemini TTS, multilingual"] },
+    { label: "App", items: ["Next.js", "TypeScript"] },
+    { label: "Backend and data", items: ["Supabase"] },
+    { label: "Hosting", items: ["Vercel"] },
+    { label: "Payments, auth, email", items: ["Razorpay", "Google OAuth", "Resend"] },
+  ]}
+/>
+
+## Outcome
+
+SkalX is live at [skalxai.app](https://skalxai.app/). During the early beta it brought in its first paying customer and about ₹8,000–₹10,000 in revenue. In September 2026 I was selected for the iTNT iAccelerate Go-to-Market and Investment Readiness Cohort, where I'm working on the business side: go-to-market, customer acquisition, business model and investment readiness.
+
+<Stats
+  items={[
+    { value: "Live", label: "skalxai.app, since Aug 2025" },
+    { value: "₹8–10K", label: "Revenue during early beta" },
+    { value: "iTNT", label: "iAccelerate cohort, Sept 2026" },
+  ]}
+/>
+
+I'd rather be honest about where it is than inflate traction. Right now the focus is turning early interest into consistent paying customers and validating the business model.
+
+## What I'd do differently
+
+I'd validate the commercial opportunity before investing so heavily in building. I spent a lot of time designing, developing and integrating features because I wanted a complete product. Looking back, I should have put a smaller version in front of paying customers much earlier, and started sales conversations alongside development instead of after it.
+
+> Building a product people can use and building a business people will pay for are two very different challenges. SkalX taught me both.
