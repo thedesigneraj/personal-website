@@ -8,9 +8,9 @@ export const site = {
   line: "I design, code with AI, and ship real products.",
   description:
     "Sudharsan AJ is a product designer in Chennai who designs, codes with AI, and ships real products. Founder of SkalX, an AI marketing product for D2C brands.",
-  email: "sudhar0125@gmail.com",
+  email: "designeraj0@gmail.com",
   linkedin: "https://www.linkedin.com/in/designeraj",
-  // [TODO: drop your résumé at public/resume.pdf]
+  // Drop your résumé at public/resume.pdf. The Contact button appears once the file exists.
   resume: "/resume.pdf",
   // [TODO: replace with your real domain once it's connected in Vercel]
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://sudharsanaj.vercel.app",

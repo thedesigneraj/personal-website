@@ -42,5 +42,5 @@ npm run build   # production build
 ## Before you go live
 
 - Search the project for `TODO` and fill each one in. They show up in lime on the site on purpose.
-- Add your résumé as `public/resume.pdf`.
+- Add your résumé as `public/resume.pdf`. The résumé button in Contact shows up automatically once it's there.
 - Set `NEXT_PUBLIC_SITE_URL` in Vercel to your real domain, e.g. `https://sudharsanaj.com`.

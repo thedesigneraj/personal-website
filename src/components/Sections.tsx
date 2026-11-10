@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { works } from "@/lib/work";
@@ -112,6 +114,9 @@ export function Concepts() {
   );
 }
 
+// Checked at build time, so the button never links to a missing file.
+const hasResume = existsSync(join(process.cwd(), "public", site.resume));
+
 export function Contact() {
   return (
     <section id="contact" className={`${wrap} scroll-mt-14 border-t border-line py-24 md:py-40`}>
@@ -137,13 +142,15 @@ export function Contact() {
           >
             linkedin ↗
           </a>
-          <a
-            href={site.resume}
-            download
-            className="rounded-md bg-lime px-5 py-3 font-mono text-sm text-ink transition hover:bg-paper"
-          >
-            download résumé ↓
-          </a>
+          {hasResume && (
+            <a
+              href={site.resume}
+              download="Sudharsan-AJ-Resume.pdf"
+              className="rounded-md bg-lime px-5 py-3 font-mono text-sm text-ink transition hover:bg-paper"
+            >
+              résumé ↓
+            </a>
+          )}
         </div>
       </Reveal>
     </section>

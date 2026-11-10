@@ -101,7 +101,7 @@ export function StoryHero() {
         gsap.set(q("[data-browser]"), { scale: 0.85, y: 40 });
         gsap.set(q("[data-plabel]"), { autoAlpha: 0, y: 8 });
         gsap.set(q("[data-line]"), { autoAlpha: 0, x: -8 });
-        gsap.set(q("[data-final-line]"), { yPercent: 110 });
+        gsap.set(q("[data-final-line]"), { autoAlpha: 0, y: 60 });
         gsap.set(q("[data-final-fade]"), { autoAlpha: 0, y: 20 });
 
         const tl = gsap.timeline({
@@ -207,7 +207,7 @@ export function StoryHero() {
           .to(q("[data-rail]"), { autoAlpha: 0, duration: 0.4 }, 12.6)
           .to(q("[data-scene='ship']"), { autoAlpha: 0, scale: 1.4, duration: 0.8, ease: "power2.in" }, 12.6)
           .to(q("[data-scene='final']"), { autoAlpha: 1, duration: 0.1 }, 13.0)
-          .to(q("[data-final-line]"), { yPercent: 0, stagger: 0.12, duration: 0.8, ease: "power4.out" }, 13.0)
+          .to(q("[data-final-line]"), { autoAlpha: 1, y: 0, stagger: 0.12, duration: 0.8, ease: "power4.out" }, 13.0)
           .to(q("[data-final-fade]"), { autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.6 }, 13.4)
           .to({}, { duration: 0.8 });
 
@@ -460,10 +460,11 @@ export function StoryHero() {
             <span className="text-lime">●</span> {site.name} · {site.role} · {site.location}
           </p>
           <h2 className="mt-6 text-[clamp(2.75rem,10vw,9.5rem)] leading-[0.92] font-medium tracking-[-0.045em]">
-            <span className="block overflow-hidden pb-[0.06em]">
+            {/* No overflow masks here: a clipped, transformed line can fail to repaint in Safari. */}
+            <span className="block">
               <span data-final-line className="block">Product designer</span>
             </span>
-            <span className="block overflow-hidden pb-[0.06em]">
+            <span className="block">
               <span data-final-line className="block">
                 who <span className="cursor text-lime">builds</span>
               </span>
