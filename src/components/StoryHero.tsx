@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,7 +18,11 @@ const chapters = [
   { key: "ship", caption: "And I ship it." },
 ];
 
-const flows = ["Ad Studio", "Brand Research", "Brand Studio"];
+// Real work shown in the PRODUCT chapter.
+const products = [
+  { name: "nudge", src: "/work/hero/nudge-screen.png" },
+  { name: "companion", src: "/work/hero/companion-screen.png" },
+];
 
 const codeLines = [
   { t: "// designed first. then built with AI.", c: "text-dim" },
@@ -88,7 +93,9 @@ export function StoryHero() {
         gsap.set(q("[data-word]"), { autoAlpha: 1, yPercent: 110 });
         gsap.set(q(".ink"), { strokeDasharray: 1, strokeDashoffset: 1 });
         gsap.set(q("[data-ui]"), { autoAlpha: 0, y: 12 });
-        gsap.set(q("[data-phone]"), { xPercent: 0, scale: 0.7 });
+        gsap.set(q("[data-phone]"), { xPercent: 0, scale: 0.6, autoAlpha: 0 });
+        gsap.set(q("[data-browser]"), { scale: 0.85, y: 40 });
+        gsap.set(q("[data-plabel]"), { autoAlpha: 0, y: 8 });
         gsap.set(q("[data-line]"), { autoAlpha: 0, x: -8 });
         gsap.set(q("[data-final-line]"), { yPercent: 110 });
         gsap.set(q("[data-final-fade]"), { autoAlpha: 0, y: 20 });
@@ -152,14 +159,15 @@ export function StoryHero() {
           .to(dot(0), { scale: 1, duration: 0.2 }, 4.3)
           .to(dot(1), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 4.3);
 
-        // 3. Product screens
+        // 3. Products: SkalX rises in, Nudge and Companion slide out on either side.
         swapWord(1, 2, 5.8);
         tl.to(caption(1), { autoAlpha: 0, y: -16, duration: 0.4 }, 5.8)
           .to(q("[data-scene='laptop']"), { autoAlpha: 0, scale: 0.8 }, 5.8)
-          .to(q("[data-scene='phones']"), { autoAlpha: 1, duration: 0.4 }, 6.0)
-          .to(q("[data-phone='0']"), { xPercent: -112, scale: 1, rotate: -6, ease: "back.out(1.4)" }, 6.1)
-          .to(q("[data-phone='1']"), { scale: 1.08, y: -10, ease: "back.out(1.4)" }, 6.1)
-          .to(q("[data-phone='2']"), { xPercent: 112, scale: 1, rotate: 6, ease: "back.out(1.4)" }, 6.1)
+          .to(q("[data-scene='phones']"), { autoAlpha: 1, duration: 0.3 }, 6.0)
+          .to(q("[data-browser]"), { scale: 1, y: 0, ease: "power3.out" }, 6.0)
+          .to(q("[data-phone='0']"), { autoAlpha: 1, xPercent: -185, y: 30, scale: 1, rotate: -7, ease: "back.out(1.3)" }, 6.25)
+          .to(q("[data-phone='1']"), { autoAlpha: 1, xPercent: 185, y: 30, scale: 1, rotate: 7, ease: "back.out(1.3)" }, 6.25)
+          .to(q("[data-plabel]"), { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.4 }, 6.7)
           .to(caption(2), { autoAlpha: 1, y: 0, duration: 0.5 }, 6.3)
           .to(dot(1), { scale: 1, duration: 0.2 }, 6.3)
           .to(dot(2), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 6.3);
@@ -168,6 +176,7 @@ export function StoryHero() {
         swapWord(2, 3, 7.8);
         tl.to(caption(2), { autoAlpha: 0, y: -16, duration: 0.4 }, 7.8)
           .to(q("[data-phone]"), { xPercent: 0, rotate: 0, y: 0, scale: 0.6, autoAlpha: 0 }, 7.8)
+          .to(q("[data-browser], [data-plabel]"), { autoAlpha: 0, scale: 0.9 }, 7.8)
           .fromTo(q("[data-scene='code']"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1 }, 8.1)
           .to(q("[data-scene='code'] [data-line]"), { autoAlpha: 1, x: 0, stagger: 0.15, duration: 0.4 }, 8.5)
           .to(caption(3), { autoAlpha: 1, y: 0, duration: 0.5 }, 8.3)
@@ -280,13 +289,18 @@ export function StoryHero() {
             <Letters text="AJ" offset={9} attr="data-aj" />
           </span>
         </h1>
-        <p data-callme className="mt-6 font-mono text-sm text-muted">
-          just call me <span className="text-lime">AJ</span>.
+        <p data-callme className="mt-6 max-w-[22rem] text-base text-muted sm:max-w-none sm:text-xl">
+          <span className="font-mono text-sm sm:text-base">
+            just call me <span className="text-lime">AJ</span>,
+          </span>{" "}
+          <span className="text-paper">
+            product designer who <span className="text-lime">builds</span> and <span className="text-lime">ships</span>.
+          </span>
         </p>
       </div>
 
       {/* Stage holding the story scenes */}
-      <div className="absolute inset-x-0 top-[17%] bottom-[22%] flex items-center justify-center px-4 md:top-[15%]">
+      <div className="absolute inset-x-0 top-[25%] bottom-[19%] flex items-center justify-center px-4 md:top-[24%]">
         <div className="relative h-full w-full max-w-[960px] [transform-style:preserve-3d]">
           {/* 1. Paper */}
           <div
@@ -336,29 +350,33 @@ export function StoryHero() {
             </div>
           </div>
 
-          {/* 3. Phones */}
+          {/* 3. Products: real work. SkalX in a browser, Nudge and Companion on phones. */}
           <div data-scene="phones" className="absolute inset-0 flex items-center justify-center">
-            {flows.map((flow, i) => (
-              <div
-                key={flow}
-                data-phone={i}
-                className="absolute aspect-[9/19] w-[28%] rounded-[1.2rem] border-2 border-[#3a3a38] bg-panel p-[3%] shadow-2xl sm:h-[94%] sm:w-auto sm:max-w-[30%] sm:rounded-[1.6rem]"
-                style={{ zIndex: i === 1 ? 2 : 1 }}
-              >
-                <div className="mx-auto mb-3 h-1.5 w-1/3 rounded-full bg-line" />
-                <p className="font-mono text-[clamp(8px,1.2vw,11px)] text-lime">{flow.toLowerCase()}</p>
-                <div className="mt-2 aspect-square rounded-lg bg-gradient-to-br from-lime/70 to-lime/10" />
-                <div className="mt-3 space-y-1.5">
-                  <span className="block h-1.5 w-full rounded bg-line" />
-                  <span className="block h-1.5 w-3/4 rounded bg-line" />
-                </div>
-                <div className="mt-3 grid grid-cols-2 gap-1.5">
-                  <span className="aspect-square rounded bg-line" />
-                  <span className="aspect-square rounded bg-line" />
-                </div>
-                <div className="absolute inset-x-[10%] bottom-[5%] h-[6%] rounded-full bg-paper" />
+            <figure data-browser className="relative z-[2] w-[72%] overflow-hidden rounded-xl border border-[#3a3a38] bg-panel shadow-[0_40px_100px_-20px_rgba(0,0,0,0.9)] sm:w-[60%]">
+              <div className="flex items-center gap-1.5 border-b border-line px-3 py-2">
+                <span className="h-2 w-2 rounded-full bg-line" />
+                <span className="h-2 w-2 rounded-full bg-line" />
+                <span className="h-2 w-2 rounded-full bg-line" />
+                <span className="ml-2 truncate rounded bg-ink px-2 py-0.5 font-mono text-[9px] text-muted sm:text-[11px]">skalxai.app</span>
               </div>
+              <div className="aspect-[16/10] overflow-hidden">
+                <Image src="/work/skalx/hero.jpg" alt="" width={2880} height={1800} sizes="560px" className="h-full w-full object-cover object-top" />
+              </div>
+            </figure>
+            {products.map((p, i) => (
+              <figure
+                key={p.name}
+                data-phone={i}
+                className="absolute z-[3] aspect-[186/400] w-[22%] overflow-hidden rounded-[0.9rem] border-[3px] border-[#2a2a28] bg-ink shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] sm:w-[17%] sm:rounded-[1.4rem] sm:border-4"
+              >
+                <Image src={p.src} alt="" width={186} height={400} sizes="180px" className="h-full w-full object-cover" />
+              </figure>
             ))}
+            <div className="absolute inset-x-0 -bottom-1 flex justify-center gap-[18%] font-mono text-[10px] text-muted sm:text-xs">
+              <span data-plabel>nudge</span>
+              <span data-plabel className="text-lime">skalx</span>
+              <span data-plabel>companion</span>
+            </div>
           </div>
 
           {/* 4. Code */}
@@ -401,7 +419,7 @@ export function StoryHero() {
       </div>
 
       {/* Captions */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[7%] px-4 sm:px-10 md:px-16">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[5%] px-4 sm:px-10 md:px-16">
         <div className="relative h-20">
           {chapters.map((c, i) => (
             <div key={c.key} data-caption={i} data-scene="caption" className="absolute inset-x-0 bottom-0">
