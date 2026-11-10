@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// The five chapters shown on the rail and in the captions.
+// The five chapters: giant word, rail label and caption.
 const chapters = [
   { key: "sketch", caption: "It starts on paper." },
   { key: "pixels", caption: "Then it becomes pixels." },
@@ -37,97 +37,168 @@ const deployLines = [
   { t: "● first paying customer", c: "text-lime" },
 ];
 
+const ticker = ["research", "design", "code with AI", "ship", "learn", "repeat"];
+
+const LIME = "#c8f23a";
+
+/** Splits a word into letters that rise in on load (pure CSS, so it works before JS). */
+function Letters({ text, offset = 0, attr }: { text: string; offset?: number; attr: string }) {
+  return (
+    <>
+      {text.split("").map((ch, i) => (
+        <span key={i} className="rise inline-block" style={{ ["--i" as string]: i + offset }} {...{ [attr]: "" }}>
+          {ch}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export function StoryHero() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+
+      // Cursor spotlight on devices with a real pointer.
+      mm.add("(pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
+        const spot = root.current?.querySelector<HTMLElement>("[data-spot]");
+        if (!spot || !root.current) return;
+        gsap.set(spot, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+        const xTo = gsap.quickTo(spot, "x", { duration: 0.8, ease: "power3" });
+        const yTo = gsap.quickTo(spot, "y", { duration: 0.8, ease: "power3" });
+        const move = (e: PointerEvent) => {
+          xTo(e.clientX);
+          yTo(e.clientY);
+        };
+        window.addEventListener("pointermove", move);
+        return () => window.removeEventListener("pointermove", move);
+      });
+
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const q = gsap.utils.selector(root);
         const caption = (i: number) => q(`[data-caption="${i}"]`);
         const dot = (i: number) => q(`[data-dot="${i}"]`);
+        const word = (i: number) => q(`[data-word="${i}"]`);
 
         gsap.set(q("[data-scene]:not([data-scene='intro'])"), { autoAlpha: 0 });
         gsap.set(q("[data-scene='intro']"), { autoAlpha: 1 });
         gsap.set(q("[data-caption]"), { autoAlpha: 0, y: 16 });
+        gsap.set(q("[data-word]"), { autoAlpha: 1, yPercent: 110 });
         gsap.set(q(".ink"), { strokeDasharray: 1, strokeDashoffset: 1 });
         gsap.set(q("[data-ui]"), { autoAlpha: 0, y: 12 });
         gsap.set(q("[data-phone]"), { xPercent: 0, scale: 0.7 });
         gsap.set(q("[data-line]"), { autoAlpha: 0, x: -8 });
-        gsap.set(q("[data-final] > *"), { autoAlpha: 0, y: 24 });
+        gsap.set(q("[data-final-line]"), { yPercent: 110 });
+        gsap.set(q("[data-final-fade]"), { autoAlpha: 0, y: 20 });
 
         const tl = gsap.timeline({
           defaults: { ease: "power2.inOut", duration: 1 },
           scrollTrigger: {
             trigger: root.current,
             start: "top top",
-            end: "+=700%",
+            end: "+=800%",
             scrub: 0.8,
             pin: true,
             anticipatePin: 1,
           },
         });
 
-        // 0. Hello
+        // Swap the giant chapter word: old one slides up and out, new one rises in.
+        const swapWord = (from: number | null, to: number | null, at: number) => {
+          if (from !== null) tl.to(word(from), { yPercent: -110, duration: 0.6, ease: "power3.in" }, at);
+          if (to !== null) tl.to(word(to), { yPercent: 0, duration: 0.7, ease: "power3.out" }, at + 0.25);
+        };
+
+        // 0. Hello → fly through "AJ"
         tl.to(q("[data-hint]"), { autoAlpha: 0, duration: 0.3 }, 0)
-          .to(q("[data-first]"), { yPercent: -60, autoAlpha: 0 }, 0)
-          .to(q("[data-aj]"), { scale: 1.25, color: "#c8f23a" }, 0)
-          .to(q("[data-scene='intro']"), { autoAlpha: 0, scale: 0.92 }, 1)
-          .to(q("[data-rail]"), { autoAlpha: 1, duration: 0.5 }, 1);
+          .to(q("[data-hello], [data-callme]"), { autoAlpha: 0, y: -20, duration: 0.5 }, 0)
+          .to(
+            q("[data-first]"),
+            {
+              yPercent: () => gsap.utils.random(-260, -140),
+              rotate: () => gsap.utils.random(-40, 40),
+              autoAlpha: 0,
+              stagger: 0.04,
+              duration: 0.8,
+              ease: "power2.in",
+            },
+            0,
+          )
+          .to(q("[data-aj-wrap]"), { scale: 18, color: LIME, duration: 1.4, ease: "power3.in" }, 0.2)
+          .to(q("[data-aj-wrap]"), { autoAlpha: 0, duration: 0.25, ease: "none" }, 1.4)
+          .to(q("[data-rail]"), { autoAlpha: 1, duration: 0.4 }, 1.5);
 
         // 1. Sketch on paper
+        swapWord(null, 0, 1.4);
         tl.fromTo(
           q("[data-scene='paper']"),
-          { autoAlpha: 0, y: 60, rotate: -10 },
-          { autoAlpha: 1, y: 0, rotate: -4 },
-          1.2,
+          { autoAlpha: 0, scale: 1.3, rotate: -14 },
+          { autoAlpha: 1, scale: 1, rotate: -4, ease: "power3.out" },
+          1.45,
         )
-          .to(caption(0), { autoAlpha: 1, y: 0, duration: 0.5 }, 1.4)
-          .to(dot(0), { backgroundColor: "#c8f23a", duration: 0.2 }, 1.4)
-          .to(q(".ink"), { strokeDashoffset: 0, stagger: 0.12, duration: 0.8 }, 1.8);
+          .to(caption(0), { autoAlpha: 1, y: 0, duration: 0.5 }, 1.7)
+          .to(dot(0), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 1.7)
+          .to(q(".ink"), { strokeDashoffset: 0, stagger: 0.12, duration: 0.8 }, 2.0);
 
         // 2. Pixels on a laptop
-        tl.to(caption(0), { autoAlpha: 0, y: -16, duration: 0.4 }, 3.6)
-          .to(q("[data-scene='paper']"), { scale: 0.55, rotate: 0, y: -20, autoAlpha: 0 }, 3.6)
-          .fromTo(q("[data-scene='laptop']"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1 }, 3.7)
-          .to(q("[data-ui]"), { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.6 }, 4.2)
-          .to(caption(1), { autoAlpha: 1, y: 0, duration: 0.5 }, 4.1)
-          .to(dot(1), { backgroundColor: "#c8f23a", duration: 0.2 }, 4.1);
+        swapWord(0, 1, 3.8);
+        tl.to(caption(0), { autoAlpha: 0, y: -16, duration: 0.4 }, 3.8)
+          .to(q("[data-scene='paper']"), { scale: 0.5, rotate: 0, y: -10, autoAlpha: 0 }, 3.8)
+          .fromTo(q("[data-scene='laptop']"), { autoAlpha: 0, scale: 0.85, rotateX: 25 }, { autoAlpha: 1, scale: 1, rotateX: 0 }, 3.9)
+          .to(q("[data-ui]"), { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.6 }, 4.4)
+          .to(caption(1), { autoAlpha: 1, y: 0, duration: 0.5 }, 4.3)
+          .to(dot(0), { scale: 1, duration: 0.2 }, 4.3)
+          .to(dot(1), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 4.3);
 
         // 3. Product screens
-        tl.to(caption(1), { autoAlpha: 0, y: -16, duration: 0.4 }, 5.6)
-          .to(q("[data-scene='laptop']"), { autoAlpha: 0, scale: 0.85 }, 5.6)
-          .to(q("[data-scene='phones']"), { autoAlpha: 1, duration: 0.4 }, 5.8)
-          .to(q("[data-phone='0']"), { xPercent: -112, scale: 1, rotate: -4 }, 5.9)
-          .to(q("[data-phone='1']"), { scale: 1.06 }, 5.9)
-          .to(q("[data-phone='2']"), { xPercent: 112, scale: 1, rotate: 4 }, 5.9)
-          .to(caption(2), { autoAlpha: 1, y: 0, duration: 0.5 }, 6.1)
-          .to(dot(2), { backgroundColor: "#c8f23a", duration: 0.2 }, 6.1);
+        swapWord(1, 2, 5.8);
+        tl.to(caption(1), { autoAlpha: 0, y: -16, duration: 0.4 }, 5.8)
+          .to(q("[data-scene='laptop']"), { autoAlpha: 0, scale: 0.8 }, 5.8)
+          .to(q("[data-scene='phones']"), { autoAlpha: 1, duration: 0.4 }, 6.0)
+          .to(q("[data-phone='0']"), { xPercent: -112, scale: 1, rotate: -6, ease: "back.out(1.4)" }, 6.1)
+          .to(q("[data-phone='1']"), { scale: 1.08, y: -10, ease: "back.out(1.4)" }, 6.1)
+          .to(q("[data-phone='2']"), { xPercent: 112, scale: 1, rotate: 6, ease: "back.out(1.4)" }, 6.1)
+          .to(caption(2), { autoAlpha: 1, y: 0, duration: 0.5 }, 6.3)
+          .to(dot(1), { scale: 1, duration: 0.2 }, 6.3)
+          .to(dot(2), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 6.3);
 
         // 4. Code
-        tl.to(caption(2), { autoAlpha: 0, y: -16, duration: 0.4 }, 7.6)
-          .to(q("[data-phone]"), { xPercent: 0, rotate: 0, scale: 0.6, autoAlpha: 0 }, 7.6)
-          .fromTo(q("[data-scene='code']"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1 }, 7.9)
-          .to(q("[data-scene='code'] [data-line]"), { autoAlpha: 1, x: 0, stagger: 0.15, duration: 0.4 }, 8.3)
-          .to(caption(3), { autoAlpha: 1, y: 0, duration: 0.5 }, 8.1)
-          .to(dot(3), { backgroundColor: "#c8f23a", duration: 0.2 }, 8.1);
+        swapWord(2, 3, 7.8);
+        tl.to(caption(2), { autoAlpha: 0, y: -16, duration: 0.4 }, 7.8)
+          .to(q("[data-phone]"), { xPercent: 0, rotate: 0, y: 0, scale: 0.6, autoAlpha: 0 }, 7.8)
+          .fromTo(q("[data-scene='code']"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1 }, 8.1)
+          .to(q("[data-scene='code'] [data-line]"), { autoAlpha: 1, x: 0, stagger: 0.15, duration: 0.4 }, 8.5)
+          .to(caption(3), { autoAlpha: 1, y: 0, duration: 0.5 }, 8.3)
+          .to(dot(2), { scale: 1, duration: 0.2 }, 8.3)
+          .to(dot(3), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 8.3);
 
         // 5. Ship
-        tl.to(caption(3), { autoAlpha: 0, y: -16, duration: 0.4 }, 9.8)
-          .to(q("[data-scene='code']"), { autoAlpha: 0, y: -40, scale: 0.95 }, 9.8)
-          .fromTo(q("[data-scene='ship']"), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0 }, 10)
-          .to(q("[data-scene='ship'] [data-line]"), { autoAlpha: 1, x: 0, stagger: 0.18, duration: 0.4 }, 10.4)
-          .to(caption(4), { autoAlpha: 1, y: 0, duration: 0.5 }, 10.2)
-          .to(dot(4), { backgroundColor: "#c8f23a", duration: 0.2 }, 10.2);
+        swapWord(3, 4, 10);
+        tl.to(caption(3), { autoAlpha: 0, y: -16, duration: 0.4 }, 10)
+          .to(q("[data-scene='code']"), { autoAlpha: 0, y: -40, scale: 0.95 }, 10)
+          .fromTo(q("[data-scene='ship']"), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0 }, 10.2)
+          .to(q("[data-scene='ship'] [data-line]"), { autoAlpha: 1, x: 0, stagger: 0.18, duration: 0.4 }, 10.6)
+          .fromTo(q("[data-live]"), { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, ease: "back.out(2)", duration: 0.5 }, 11.7)
+          .to(caption(4), { autoAlpha: 1, y: 0, duration: 0.5 }, 10.4)
+          .to(dot(3), { scale: 1, duration: 0.2 }, 10.4)
+          .to(dot(4), { backgroundColor: LIME, scale: 1.6, duration: 0.2 }, 10.4);
 
         // 6. Who I am now
-        tl.to(caption(4), { autoAlpha: 0, duration: 0.4 }, 12)
-          .to(q("[data-rail]"), { autoAlpha: 0, duration: 0.4 }, 12)
-          .to(q("[data-scene='ship']"), { autoAlpha: 0, scale: 0.9 }, 12)
-          .to(q("[data-scene='final']"), { autoAlpha: 1, duration: 0.1 }, 12.3)
-          .to(q("[data-final] > *"), { autoAlpha: 1, y: 0, stagger: 0.15, duration: 0.6 }, 12.3)
+        swapWord(4, null, 12.6);
+        tl.to(caption(4), { autoAlpha: 0, duration: 0.4 }, 12.6)
+          .to(q("[data-rail]"), { autoAlpha: 0, duration: 0.4 }, 12.6)
+          .to(q("[data-scene='ship']"), { autoAlpha: 0, scale: 1.4, duration: 0.8, ease: "power2.in" }, 12.6)
+          .to(q("[data-scene='final']"), { autoAlpha: 1, duration: 0.1 }, 13.0)
+          .to(q("[data-final-line]"), { yPercent: 0, stagger: 0.12, duration: 0.8, ease: "power4.out" }, 13.0)
+          .to(q("[data-final-fade]"), { autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.6 }, 13.4)
           .to({}, { duration: 0.8 });
+
+        // Whole-story layers: progress bar and grid parallax.
+        const total = tl.duration();
+        tl.fromTo(q("[data-progress]"), { scaleX: 0 }, { scaleX: 1, ease: "none", duration: total }, 0);
+        tl.to(q("[data-grid]"), { yPercent: -25, ease: "none", duration: total }, 0);
 
         // Pinning adds scroll height after the browser has already jumped to a #hash,
         // so jump again once the spacer exists (e.g. arriving at /#work from a case study).
@@ -147,12 +218,13 @@ export function StoryHero() {
       ref={root}
       id="top"
       aria-label="Intro"
-      className="story relative h-svh w-full overflow-hidden bg-ink"
+      className="story relative h-svh w-full overflow-hidden bg-ink [perspective:1200px]"
     >
-      {/* faint grid */}
+      {/* Parallax grid */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-40"
+        data-grid
+        className="pointer-events-none absolute inset-x-0 -top-[10%] h-[140%] opacity-40"
         style={{
           backgroundImage:
             "linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px)",
@@ -161,30 +233,65 @@ export function StoryHero() {
         }}
       />
 
+      {/* Cursor spotlight */}
+      <div
+        aria-hidden
+        data-spot
+        className="pointer-events-none fixed top-0 left-0 z-0 -mt-[300px] -ml-[300px] hidden h-[600px] w-[600px] rounded-full [@media(pointer:fine)]:block"
+        style={{ background: "radial-gradient(circle, rgba(200,242,58,0.09), transparent 60%)" }}
+      />
+
+      {/* Giant chapter words fill the top of the frame */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[9%] overflow-hidden text-center md:top-[7%]">
+        <div className="relative h-[clamp(4.5rem,19vw,17rem)]">
+          {chapters.map((c, i) => (
+            <span
+              key={c.key}
+              data-word={i}
+              data-scene="word"
+              className="absolute inset-0 block text-[clamp(4.5rem,19vw,17rem)] leading-none font-medium tracking-[-0.05em] uppercase"
+              style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(200,242,58,0.38)" }}
+            >
+              {c.key}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div aria-hidden className="absolute inset-x-0 top-14 z-10 h-px bg-line">
+        <div data-progress className="h-full origin-left scale-x-0 bg-lime" />
+      </div>
+
       {/* 0. Intro */}
       <div
         data-scene="intro"
-        className="absolute inset-0 flex flex-col items-start justify-center px-4 sm:px-10 md:px-16"
+        className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center"
       >
-        <p className="font-mono text-sm text-muted">
+        <p data-hello className="font-mono text-sm text-muted">
           <span className="text-lime">~</span> hello, world. I&apos;m
         </p>
-        <h1 className="mt-4 text-[clamp(3.5rem,14vw,12rem)] font-medium leading-[0.85] tracking-[-0.04em]">
-          <span data-first className="block">Sudharsan</span>
-          <span data-aj className="block origin-left">AJ</span>
+        <h1 className="mt-4 text-[clamp(3.5rem,15vw,13rem)] leading-[0.85] font-medium tracking-[-0.04em]">
+          <span className="sr-only">Sudharsan AJ</span>
+          <span aria-hidden className="block">
+            <Letters text="Sudharsan" attr="data-first" />
+          </span>
+          <span aria-hidden data-aj-wrap className="relative z-10 block origin-center">
+            <Letters text="AJ" offset={9} attr="data-aj" />
+          </span>
         </h1>
-        <p className="mt-6 font-mono text-sm text-muted">
-          just call me AJ. {site.role.toLowerCase()}, {site.location.toLowerCase()}.
+        <p data-callme className="mt-6 font-mono text-sm text-muted">
+          just call me <span className="text-lime">AJ</span>.
         </p>
       </div>
 
       {/* Stage holding the story scenes */}
-      <div className="absolute inset-x-0 top-[12%] bottom-[22%] flex items-center justify-center px-4">
-        <div className="relative h-full w-full max-w-[880px]">
+      <div className="absolute inset-x-0 top-[17%] bottom-[22%] flex items-center justify-center px-4 md:top-[15%]">
+        <div className="relative h-full w-full max-w-[960px] [transform-style:preserve-3d]">
           {/* 1. Paper */}
           <div
             data-scene="paper"
-            className="absolute top-1/2 left-1/2 aspect-[3/4] h-[92%] -translate-x-1/2 -translate-y-1/2 rounded-sm bg-paper p-[6%] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+            className="absolute top-1/2 left-1/2 aspect-[3/4] h-[94%] -translate-x-1/2 -translate-y-1/2 rounded-sm bg-paper p-[6%] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.9)]"
           >
             <svg viewBox="0 0 300 400" className="h-full w-full" fill="none" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path className="ink" pathLength={1} d="M10 20 H290" />
@@ -235,7 +342,7 @@ export function StoryHero() {
               <div
                 key={flow}
                 data-phone={i}
-                className="absolute aspect-[9/19] w-[28%] rounded-[1.2rem] sm:w-auto sm:h-[94%] sm:max-w-[30%] sm:rounded-[1.6rem] border-2 border-[#3a3a38] bg-panel p-[3%]"
+                className="absolute aspect-[9/19] w-[28%] rounded-[1.2rem] border-2 border-[#3a3a38] bg-panel p-[3%] shadow-2xl sm:h-[94%] sm:w-auto sm:max-w-[30%] sm:rounded-[1.6rem]"
                 style={{ zIndex: i === 1 ? 2 : 1 }}
               >
                 <div className="mx-auto mb-3 h-1.5 w-1/3 rounded-full bg-line" />
@@ -276,24 +383,30 @@ export function StoryHero() {
 
           {/* 5. Ship */}
           <div data-scene="ship" className="absolute inset-0 flex items-center justify-center">
-            <div className="w-full max-w-[560px] rounded-xl border border-line bg-[#0a0a0b] p-6 font-mono text-[clamp(11px,1.6vw,15px)] leading-8">
+            <div className="relative w-full max-w-[560px] rounded-xl border border-line bg-[#0a0a0b] p-6 font-mono text-[clamp(11px,1.6vw,15px)] leading-8 shadow-2xl">
               {deployLines.map((l, i) => (
                 <div key={i} data-line className={l.c}>
                   {l.t}
                 </div>
               ))}
+              <span
+                data-live
+                className="absolute -top-4 -right-3 rotate-6 rounded-full bg-lime px-4 py-1.5 font-sans text-sm font-medium text-ink shadow-[0_0_40px_rgba(200,242,58,0.5)] sm:-right-6"
+              >
+                ● live
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Captions */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[8%] px-4 sm:px-10 md:px-16">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[7%] px-4 sm:px-10 md:px-16">
         <div className="relative h-20">
           {chapters.map((c, i) => (
             <div key={c.key} data-caption={i} data-scene="caption" className="absolute inset-x-0 bottom-0">
               <p className="font-mono text-xs text-lime">
-                0{i + 1} / {c.key}
+                0{i + 1} / 05
               </p>
               <p className="mt-2 text-2xl font-medium tracking-tight sm:text-4xl">{c.caption}</p>
             </div>
@@ -316,44 +429,62 @@ export function StoryHero() {
       </ol>
 
       {/* 6. Final frame */}
-      <div
-        data-scene="final"
-        className="absolute inset-0 flex items-center px-4 sm:px-10 md:px-16"
-      >
-        <div data-final className="max-w-5xl">
-          <p className="font-mono text-sm text-muted">
+      <div data-scene="final" className="absolute inset-0 flex flex-col justify-center">
+        <div className="px-4 sm:px-10 md:px-16">
+          <p data-final-fade className="font-mono text-sm text-muted">
             <span className="text-lime">●</span> {site.name} · {site.role} · {site.location}
           </p>
-          <h2 className="mt-6 text-[clamp(2.75rem,9vw,8rem)] font-medium leading-[0.92] tracking-[-0.04em]">
-            Product designer
-            <br />
-            who <span className="cursor text-lime">builds</span>
+          <h2 className="mt-6 text-[clamp(2.75rem,10vw,9.5rem)] leading-[0.92] font-medium tracking-[-0.045em]">
+            <span className="block overflow-hidden pb-[0.06em]">
+              <span data-final-line className="block">Product designer</span>
+            </span>
+            <span className="block overflow-hidden pb-[0.06em]">
+              <span data-final-line className="block">
+                who <span className="cursor text-lime">builds</span>
+              </span>
+            </span>
           </h2>
-          <p className="mt-6 max-w-xl text-lg text-paper/75 sm:text-xl">{site.line}</p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href="#work"
-              className="rounded-md bg-lime px-6 py-3.5 font-medium text-ink transition hover:bg-paper"
-            >
+          <p data-final-fade className="mt-6 max-w-xl text-lg text-paper/75 sm:text-xl">
+            {site.line}
+          </p>
+          <div data-final-fade className="mt-10 flex flex-wrap gap-3">
+            <a href="#work" className="rounded-md bg-lime px-6 py-3.5 font-medium text-ink transition hover:bg-paper">
               View work
             </a>
-            <a
-              href="#contact"
-              className="rounded-md border border-line px-6 py-3.5 font-medium transition hover:border-paper"
-            >
+            <a href="#contact" className="rounded-md border border-line px-6 py-3.5 font-medium transition hover:border-paper">
               Contact
             </a>
+          </div>
+        </div>
+        <div data-final-fade aria-hidden className="absolute inset-x-0 bottom-6 overflow-hidden border-y border-line py-3">
+          <div className="marquee flex w-max gap-8 font-mono text-sm text-dim">
+            {[0, 1].map((k) => (
+              <span key={k} className="flex gap-8">
+                {ticker.concat(ticker).map((t, i) => (
+                  <span key={i}>
+                    {t} <span className="text-lime">✦</span>
+                  </span>
+                ))}
+              </span>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Scroll hint */}
-      <p
-        data-hint
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-dim"
-      >
+      <p data-hint className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-dim">
         scroll <span className="inline-block animate-bounce">↓</span>
       </p>
+
+      {/* Film grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
     </section>
   );
 }

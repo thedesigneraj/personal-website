@@ -58,6 +58,44 @@ body {
   stroke-dashoffset: 0;
 }
 
+/* Doodle micro-animations: start after the draw-in, loop forever, gently. */
+.doodle g {
+  transform-box: fill-box;
+}
+.is-in .doodle g {
+  animation-delay: 1.8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.is-in .dz-clap { transform-origin: 0% 100%; animation-name: dz-clap; animation-duration: 2.6s; }
+.is-in .dz-pulse { transform-origin: 50% 50%; animation-name: dz-pulse; animation-duration: 1.6s; }
+.is-in .dz-scrub { animation-name: dz-scrub; animation-duration: 3.2s; animation-direction: alternate; }
+.is-in .dz-write { transform-origin: 0% 100%; animation-name: dz-write; animation-duration: 1.4s; }
+.is-in .dz-redraw path { animation: dz-redraw 2.8s ease-in-out 1.8s infinite; }
+.is-in .dz-toss { transform-origin: 50% 100%; animation-name: dz-toss; animation-duration: 3s; }
+.is-in .dz-tassel { transform-origin: 50% 0%; animation-name: dz-swing; animation-duration: 1.5s; }
+.is-in .dz-buzz { transform-origin: 50% 50%; animation-name: dz-buzz; animation-duration: 3.4s; }
+.is-in .dz-type { transform-origin: 0% 50%; animation-name: dz-type; animation-duration: 2.4s; }
+.is-in .dz-fly { animation-name: dz-fly; animation-duration: 2.2s; }
+.is-in .dz-flame { transform-origin: 50% 0%; animation-name: dz-flame; animation-duration: 0.35s; animation-delay: 0s; }
+.is-in .dz-streaks { animation-name: dz-streaks; animation-duration: 0.9s; animation-timing-function: linear; }
+.is-in .dz-focus { transform-origin: 50% 50%; animation-name: dz-pulse; animation-duration: 2.4s; }
+.is-in .dz-flash { transform-origin: 0% 100%; animation-name: dz-flash; animation-duration: 2.8s; }
+
+@keyframes dz-clap { 0%, 55%, 100% { transform: rotate(0); } 68% { transform: rotate(-22deg); } 78% { transform: rotate(0); } 84% { transform: rotate(-6deg); } 90% { transform: rotate(0); } }
+@keyframes dz-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+@keyframes dz-scrub { from { transform: translateX(0); } to { transform: translateX(40px); } }
+@keyframes dz-write { 0%, 100% { transform: translate(0, 0) rotate(0); } 25% { transform: translate(3px, 1px) rotate(-3deg); } 50% { transform: translate(6px, -1px) rotate(1deg); } 75% { transform: translate(3px, 1px) rotate(-2deg); } }
+@keyframes dz-redraw { 0% { stroke-dashoffset: 1; } 45%, 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -1; } }
+@keyframes dz-toss { 0%, 50%, 100% { transform: translateY(0) rotate(0); } 65% { transform: translateY(-9px) rotate(-10deg); } 80% { transform: translateY(0) rotate(4deg); } 90% { transform: rotate(0); } }
+@keyframes dz-swing { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
+@keyframes dz-buzz { 0%, 70%, 100% { transform: rotate(0); } 74% { transform: rotate(-6deg); } 78% { transform: rotate(6deg); } 82% { transform: rotate(-4deg); } 86% { transform: rotate(3deg); } 90% { transform: rotate(0); } }
+@keyframes dz-type { 0% { transform: scaleX(0); } 60%, 85% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes dz-fly { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translate(-0.6px, -4px) rotate(-1deg); } 50% { transform: translateY(-2px); } 75% { transform: translate(0.6px, -5px) rotate(1deg); } }
+@keyframes dz-flame { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.35); } }
+@keyframes dz-streaks { from { transform: translateY(-6px); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(10px); opacity: 0; } }
+@keyframes dz-flash { 0%, 80%, 100% { opacity: 0; transform: scale(0.6); } 86% { opacity: 1; transform: scale(1.1); } 94% { opacity: 0; } }
+
 /* Story hero: default (pre-JS) shows the intro; reduced motion shows the final frame. */
 .story [data-scene] {
   opacity: 0;
@@ -75,6 +113,10 @@ body {
     stroke-dashoffset: 0;
     transition: none;
   }
+  .doodle g,
+  .doodle g path {
+    animation: none !important;
+  }
   .story [data-scene] {
     opacity: 0 !important;
   }
@@ -85,6 +127,10 @@ body {
   .story [data-hint] {
     display: none;
   }
+  .rise,
+  .marquee {
+    animation: none;
+  }
 }
 
 .cursor::after {
@@ -92,6 +138,29 @@ body {
   color: var(--color-lime);
   animation: blink 1.1s steps(1) infinite;
 }
+/* Hero name: letters rise in on load. "backwards" so GSAP owns the transform afterwards. */
+.rise {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--i) * 55ms + 150ms);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(60%) rotate(6deg);
+    filter: blur(8px);
+  }
+}
+
+/* Final-frame ticker */
+.marquee {
+  animation: marquee 28s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes blink {
   50% {
     opacity: 0;

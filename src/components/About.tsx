@@ -23,58 +23,72 @@ function Doodle({ children, className = "h-14 w-14" }: { children: ReactNode; cl
 
 const P = (d: string) => <path pathLength={1} d={d} />;
 
+// Each doodle draws in, then loops a tiny motion (see the dz-* keyframes in globals.css).
 const doodles = {
   clapper: (
     <>
       {P("M10 27 h44 v25 h-44 z")}
-      {P("M10 27 l3 -12 h43 l-2 12")}
-      {P("M22 15 l-4 12 M34 15 l-4 12 M46 15 l-4 12")}
       {P("M18 38 h20 M18 45 h12")}
+      <g className="dz-clap">
+        {P("M10 27 l3 -12 h43 l-2 12")}
+        {P("M22 15 l-4 12 M34 15 l-4 12 M46 15 l-4 12")}
+      </g>
     </>
   ),
   edit: (
     <>
       {P("M8 12 h48 v30 h-48 z")}
-      {P("M27 20 l11 7 l-11 7 z")}
+      <g className="dz-pulse">{P("M27 20 l11 7 l-11 7 z")}</g>
       {P("M8 52 h48")}
-      {P("M22 48 v8 M40 48 v8")}
+      <g className="dz-scrub">{P("M12 47 v10")}</g>
     </>
   ),
   pencil: (
     <>
-      {P("M15 47 l3 -9 l28 -28 l6 6 l-28 28 z")}
-      {P("M40 16 l6 6")}
-      {P("M8 57 c8 -5 14 4 22 0 s14 -5 24 0")}
+      <g className="dz-write">
+        {P("M15 47 l3 -9 l28 -28 l6 6 l-28 28 z")}
+        {P("M40 16 l6 6")}
+      </g>
+      <g className="dz-redraw">{P("M8 57 c8 -5 14 4 22 0 s14 -5 24 0")}</g>
     </>
   ),
   cap: (
     <>
-      {P("M6 26 l26 -11 l26 11 l-26 11 z")}
+      <g className="dz-toss">
+        {P("M6 26 l26 -11 l26 11 l-26 11 z")}
+        <g className="dz-tassel">{P("M58 26 v15 l-3 5")}</g>
+      </g>
       {P("M17 31 v12 c9 7 21 7 30 0 v-12")}
-      {P("M58 26 v15 l-3 5")}
     </>
   ),
   devices: (
     <>
-      {P("M10 10 h20 v38 h-20 z")}
-      {P("M17 43 h6")}
+      <g className="dz-buzz">
+        {P("M10 10 h20 v38 h-20 z")}
+        {P("M17 43 h6")}
+      </g>
       {P("M32 26 h24 v18 h-24 z")}
+      <g className="dz-type">{P("M36 32 h14 M36 38 h9")}</g>
       {P("M27 52 h34")}
     </>
   ),
   rocket: (
     <>
-      {P("M32 7 c11 9 13 23 8 35 h-16 c-5 -12 -3 -26 8 -35 z")}
-      {P("M32 20 a4 4 0 1 0 0.1 0")}
-      {P("M24 34 l-8 11 l9 -3 M40 34 l8 11 l-9 -3")}
-      {P("M28 46 c0 6 4 8 4 12 c0 -4 4 -6 4 -12")}
+      <g className="dz-streaks">{P("M14 40 v8 M50 30 v8 M20 54 v6 M46 50 v6")}</g>
+      <g className="dz-fly">
+        {P("M32 7 c11 9 13 23 8 35 h-16 c-5 -12 -3 -26 8 -35 z")}
+        {P("M32 20 a4 4 0 1 0 0.1 0")}
+        {P("M24 34 l-8 11 l9 -3 M40 34 l8 11 l-9 -3")}
+        <g className="dz-flame">{P("M28 46 c0 6 4 8 4 12 c0 -4 4 -6 4 -12")}</g>
+      </g>
     </>
   ),
   camera: (
     <>
       {P("M8 22 h12 l4 -7 h16 l4 7 h12 v28 h-48 z")}
-      {P("M32 28 a8 8 0 1 0 0.1 0")}
+      <g className="dz-focus">{P("M32 28 a8 8 0 1 0 0.1 0")}</g>
       {P("M48 27 h3")}
+      <g className="dz-flash">{P("M52 8 l-3 5 M58 12 l-5 3 M46 6 l0 5")}</g>
     </>
   ),
   arrow: (
