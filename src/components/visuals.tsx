@@ -266,7 +266,7 @@ export function DesignSystemSheet() {
   );
 }
 
-/* ---------- NeurIX AI (illustration only: the real designs are under NDA) ---------- */
+/* ---------- NeuriX AI (illustration only: the real designs are under NDA) ---------- */
 
 const pipeline = [
   { col: "Applied", items: ["Candidate A · 82", "Candidate B · 76", "Candidate C · 64"] },
