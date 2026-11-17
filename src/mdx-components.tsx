@@ -7,12 +7,19 @@ import {
   Flow,
   FoodXScreens,
   Grid,
+  BigQuestions,
+  DecisionGrid,
+  FlowMap,
   HrmsIllustration,
+  ImageGrid,
+  UseCase,
+  PhoneGrid,
   Prototype,
   Recreated,
   ScrollShot,
   Shift,
   Shot,
+  StatStrip,
 } from "@/components/visuals";
 
 // Styles for every case study. Components listed here can be used in any .mdx file
@@ -71,6 +78,13 @@ const components: MDXComponents = {
   FoodXScreens,
   ChecklistVsBasket,
   HrmsIllustration,
+  ImageGrid,
+  PhoneGrid,
+  DecisionGrid,
+  UseCase,
+  FlowMap,
+  BigQuestions,
+  StatStrip,
 };
 
 export function useMDXComponents(): MDXComponents {

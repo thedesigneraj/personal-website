@@ -7,11 +7,12 @@ export type ConceptMeta = {
   kind: string;
   tagline: string;
   summary: string;
-  year: string;
-  tools: string;
+  year?: string;
+  tools?: string;
   fields: string;
+  research?: string;
   cover: { src: string; alt: string };
-  behance: string;
+  behance?: string;
 };
 
 type MdxModule = { default: ComponentType; meta: ConceptMeta };

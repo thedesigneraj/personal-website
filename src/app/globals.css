@@ -129,6 +129,7 @@ body {
   }
   .rise,
   .marquee,
+  .logo-animated .logo-chute,
   .timeline-node.is-now::after {
     animation: none;
   }
@@ -197,6 +198,17 @@ body {
     transform: scale(2.4);
     opacity: 0;
   }
+}
+
+/* Logo motion: the parachute sways on its lines, pivoting at the top of the J. */
+.logo-animated .logo-chute {
+  transform-box: view-box;
+  transform-origin: 51.8px 29px;
+  animation: logo-sway 3.4s ease-in-out infinite;
+}
+@keyframes logo-sway {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
 }
 
 /* Final-frame ticker */

@@ -48,7 +48,7 @@ export function Concepts() {
           Side projects where I explore ideas.
         </h2>
       </Reveal>
-      <div className="mt-14 grid gap-10 md:grid-cols-2">
+      <div className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {concepts.map(({ slug, meta }, i) => (
           <Reveal key={slug} delay={i * 100}>
             <Link href={`/concepts/${slug}`} className="group block">
@@ -63,7 +63,8 @@ export function Concepts() {
                 />
               </div>
               <p className="mt-5 font-mono text-xs text-muted">
-                {meta.kind} · {meta.year}
+                {meta.kind}
+                {meta.year ? ` · ${meta.year}` : ""}
               </p>
               <h3 className="mt-2 text-2xl font-medium tracking-tight transition group-hover:text-lime">
                 {meta.title}

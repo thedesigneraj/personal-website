@@ -39,7 +39,8 @@ export default async function ConceptPage({ params }: PageProps<"/concepts/[slug
     { k: "Year", v: meta.year },
     { k: "Tools", v: meta.tools },
     { k: "Fields", v: meta.fields },
-  ];
+    { k: "Research", v: meta.research },
+  ].filter((f): f is { k: string; v: string } => Boolean(f.v));
 
   return (
     <main className="pt-14">
@@ -80,12 +81,16 @@ export default async function ConceptPage({ params }: PageProps<"/concepts/[slug
           <Content />
         </div>
 
-        <p className="pb-24 font-mono text-xs text-dim">
-          Also on{" "}
-          <a href={meta.behance} target="_blank" rel="noreferrer" className="text-muted underline underline-offset-4 hover:text-lime">
-            Behance ↗
-          </a>
-        </p>
+        {meta.behance ? (
+          <p className="pb-24 font-mono text-xs text-dim">
+            Also on{" "}
+            <a href={meta.behance} target="_blank" rel="noreferrer" className="text-muted underline underline-offset-4 hover:text-lime">
+              Behance ↗
+            </a>
+          </p>
+        ) : (
+          <div className="pb-24" />
+        )}
       </article>
 
       <Link
